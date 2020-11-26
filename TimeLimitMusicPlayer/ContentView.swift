@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct ContentView: View {
+    let music: Music = Music()
     @State var min: Double = 45
 
     var body: some View {
@@ -17,6 +18,14 @@ struct ContentView: View {
             Slider(value: self.$min, in: 10...90, step: 1)
             Image(systemName: "play.fill")
                 .font(.largeTitle)
+                .onTapGesture {
+                    music.play()
+                }
+            Image(systemName: "stop.fill")
+                .font(.largeTitle)
+                .onTapGesture {
+                    music.stop()
+                }
         }
         .padding()
     }
