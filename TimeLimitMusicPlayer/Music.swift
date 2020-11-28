@@ -27,7 +27,7 @@ final class Music: ObservableObject {
         player.setQueue(with: collection)
         player.play()
 
-        Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
         
 //        let content = UNMutableNotificationContent()
 //        content.title = "Next"
@@ -42,13 +42,16 @@ final class Music: ObservableObject {
         player.skipToNextItem()
         print(player.nowPlayingItem?.albumTrackNumber)
         print(player.playbackState.rawValue)
-        if player.playbackState == .stopped || player.playbackState == .paused{
+        print("indexOfNowPlayingItem:\(player.indexOfNowPlayingItem)")
+        if player.playbackState == .stopped || player.playbackState == .paused || player.indexOfNowPlayingItem == 0 {
             print("stopped")
             player.stop()
+            print(player.playbackState.rawValue)
         }
         else {
             Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
         }
+        print(#function + " end")
     }
 
     func stop() {
