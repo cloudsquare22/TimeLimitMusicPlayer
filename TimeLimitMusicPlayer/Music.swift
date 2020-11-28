@@ -12,24 +12,6 @@ final class Music: ObservableObject {
     var player: MPMusicPlayerController! = MPMusicPlayerController.systemMusicPlayer
     
     init() {
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            
-            if let error = error {
-                // Handle the error here.
-                print(error)
-            }
-            if granted == true {
-                print("許可")
-//                center.delegate = self
-//                center.getNotificationSettings(completionHandler: { setting in
-//                    print(setting)
-//                })
-            }
-            else {
-                print("非許可")
-            }
-        }
     }
     
     func play() {
@@ -43,6 +25,14 @@ final class Music: ObservableObject {
         
         player.setQueue(with: collection)
         player.play()
+
+        let content = UNMutableNotificationContent()
+        content.title = "Next"
+        content.subtitle = "Next"
+        content.body = "Next"
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
+        let request = UNNotificationRequest.init(identifier: "localNotificatoin", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
     func stop() {
