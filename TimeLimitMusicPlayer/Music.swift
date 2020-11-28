@@ -22,19 +22,34 @@ final class Music: ObservableObject {
             sumTime = sumTime + item.playbackDuration
         }
         print(sumTime)
+        print(collection.count)
         
         player.setQueue(with: collection)
         player.play()
 
-        let content = UNMutableNotificationContent()
-        content.title = "Next"
-        content.subtitle = "Next"
-        content.body = "Next"
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
-        let request = UNNotificationRequest.init(identifier: "localNotificatoin", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
+        
+//        let content = UNMutableNotificationContent()
+//        content.title = "Next"
+//        content.subtitle = "Next"
+//        content.body = "Next"
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
+//        let request = UNNotificationRequest.init(identifier: "localNotificatoin", content: content, trigger: trigger)
+//        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
-    
+
+    @objc private func timerUpdate() {
+        player.skipToNextItem()
+        print(player.playbackState.rawValue)
+        if player.playbackState == .stopped || player.playbackState == .paused{
+            print("stopped")
+            player.stop()
+        }
+        else {
+            Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
+        }
+    }
+
     func stop() {
         player.stop()
     }
