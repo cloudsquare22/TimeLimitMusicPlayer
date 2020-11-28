@@ -40,6 +40,7 @@ final class Music: ObservableObject {
 
     @objc private func timerUpdate() {
         player.skipToNextItem()
+        print(player.nowPlayingItem?.albumTrackNumber)
         print(player.playbackState.rawValue)
         if player.playbackState == .stopped || player.playbackState == .paused{
             print("stopped")
