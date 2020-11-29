@@ -16,16 +16,16 @@ struct ContentView: View {
         VStack {
             Text("Min:\(Int(self.min))")
             Slider(value: self.$min, in: 10...90, step: 1)
-            Image(systemName: "play.fill")
-                .font(.largeTitle)
-                .onTapGesture {
-                    music.play()
-                }
-            Image(systemName: "stop.fill")
-                .font(.largeTitle)
-                .onTapGesture {
-                    music.stop()
-                }
+            Button(action: {
+                music.play()
+            }, label: {
+                Image("play")
+            })
+            Button(action: {
+                music.stop()
+            }, label: {
+                Image("stop")
+            })
         }
         .padding()
     }
