@@ -9,11 +9,17 @@ import SwiftUI
 
 
 struct ContentView: View {
-    let music: Music = Music()
+    @EnvironmentObject var music: Music
     @State var min: Double = 45
+    @State var selectAlbum = false
 
     var body: some View {
         VStack {
+            Button(action: {
+                self.selectAlbum = true
+            }, label: {
+                Image("cd")
+            })
             Text("Min:\(Int(self.min))")
             Slider(value: self.$min, in: 10...90, step: 1)
             Button(action: {
@@ -28,6 +34,9 @@ struct ContentView: View {
             })
         }
         .padding()
+        .sheet(isPresented: self.$selectAlbum, onDismiss: {}) {
+            AlbumSelectView()
+        }
         .onAppear() {
             print(#function)
             print("onAppear()")
@@ -44,5 +53,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(Music())
     }
 }

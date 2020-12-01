@@ -11,13 +11,15 @@ import MediaPlayer
 final class Music: ObservableObject {
     var player: MPMusicPlayerController! = MPMusicPlayerController.systemMusicPlayer
     var playRatio: Double = 1.0
+    @Published var mediaQuery: MPMediaQuery? = nil
     
     init() {
+        self.mediaQuery = MPMediaQuery.albums()
     }
     
     func play(min: Double) {
-        let mediaQuery = MPMediaQuery.albums()
-        let collection = mediaQuery.collections![1]
+        mediaQuery = MPMediaQuery.albums()
+        let collection = mediaQuery!.collections![1]
         var sumTime: TimeInterval = 0
         for item in collection.items {
             sumTime = sumTime + item.playbackDuration
