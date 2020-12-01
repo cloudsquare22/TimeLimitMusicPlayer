@@ -10,13 +10,14 @@ import MediaPlayer
 
 final class Music: ObservableObject {
     var player: MPMusicPlayerController! = MPMusicPlayerController.systemMusicPlayer
+    var playRatio: Double = 1.0
     
     init() {
     }
     
-    func play() {
+    func play(min: Double) {
         let mediaQuery = MPMediaQuery.albums()
-        let collection = mediaQuery.collections![0]
+        let collection = mediaQuery.collections![1]
         var sumTime: TimeInterval = 0
         for item in collection.items {
             sumTime = sumTime + item.playbackDuration
@@ -24,10 +25,17 @@ final class Music: ObservableObject {
         print(sumTime)
         print(collection.count)
         
+        let playTime: TimeInterval = TimeInterval(Int(min) * 60)
+        print(playTime)
+        print(playTime / sumTime)
+        playRatio = playTime / sumTime
+        
         player.setQueue(with: collection)
         player.play()
+        
+        print(player.nowPlayingItem!.playbackDuration * playRatio)
 
-        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
         
 //        let content = UNMutableNotificationContent()
 //        content.title = "Next"
@@ -49,7 +57,8 @@ final class Music: ObservableObject {
             print(player.playbackState.rawValue)
         }
         else {
-            Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
+            print(player.nowPlayingItem!.playbackDuration * playRatio)
+            Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
         }
         print(#function + " end")
     }

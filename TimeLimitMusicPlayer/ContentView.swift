@@ -17,7 +17,7 @@ struct ContentView: View {
             Text("Min:\(Int(self.min))")
             Slider(value: self.$min, in: 10...90, step: 1)
             Button(action: {
-                music.play()
+                music.play(min: min)
             }, label: {
                 Image("play")
             })
@@ -28,6 +28,16 @@ struct ContentView: View {
             })
         }
         .padding()
+        .onAppear() {
+            print(#function)
+            print("onAppear()")
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
+        .onDisappear() {
+            print(#function)
+            print("onDisappear()")
+            UIApplication.shared.isIdleTimerDisabled = false
+        }
     }
 }
 
