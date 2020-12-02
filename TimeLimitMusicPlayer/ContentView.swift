@@ -16,6 +16,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button(action: {
+                self.music.updateMediaQuery()
                 self.selectAlbum = true
             }, label: {
                 Image("cd")
@@ -23,12 +24,12 @@ struct ContentView: View {
             Text("Min:\(Int(self.min))")
             Slider(value: self.$min, in: 10...90, step: 1)
             Button(action: {
-                music.play(min: min)
+                self.music.play(min: min)
             }, label: {
                 Image("play")
             })
             Button(action: {
-                music.stop()
+                self.music.stop()
             }, label: {
                 Image("stop")
             })

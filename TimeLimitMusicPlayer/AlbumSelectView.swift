@@ -13,12 +13,12 @@ struct AlbumSelectView: View {
 
     var body: some View {
         List {
-            ForEach(0..<self.music.mediaQuery!.collections!.count) { index in
+            ForEach(0..<self.music.collections.count) { index in
                 Button(action: {
-                    self.music.setCollection(collection: self.music.mediaQuery!.collections![index])
+                    self.music.setCollection(collection: self.music.collections[index])
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Text(self.music.mediaQuery!.collections![index].items[0].albumTitle!)
+                    Text(self.music.collections[index].items[0].albumTitle!)
                 })
             }
         }

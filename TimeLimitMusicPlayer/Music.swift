@@ -11,16 +11,18 @@ import MediaPlayer
 final class Music: ObservableObject {
     var player: MPMusicPlayerController! = MPMusicPlayerController.systemMusicPlayer
     var playRatio: Double = 1.0
-    @Published var mediaQuery: MPMediaQuery? = nil
+    var mediaQuery: MPMediaQuery? = nil
+    @Published var collections: [MPMediaItemCollection] = []
     var collection: MPMediaItemCollection? = nil
     var timelog = Date()
+    var timer: Timer? = nil
     
     init() {
         self.mediaQuery = MPMediaQuery.albums()
     }
     
     func play(min: Double) {
-        mediaQuery = MPMediaQuery.albums()
+//        self.mediaQuery = MPMediaQuery.albums()
 //        collection = mediaQuery!.collections![1]
         var sumTime: TimeInterval = 0
         for item in collection!.items {
@@ -40,7 +42,7 @@ final class Music: ObservableObject {
         print(player.nowPlayingItem!.playbackDuration * playRatio)
 
         timelog = Date()
-        Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
+        self.timer = Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
 }
 
     @objc private func timerUpdate() {
@@ -49,6 +51,9 @@ final class Music: ObservableObject {
         print(player.nowPlayingItem?.albumTrackNumber)
         print(player.playbackState.rawValue)
         print("indexOfNowPlayingItem:\(player.indexOfNowPlayingItem)")
+        if let t = self.timer {
+            t.invalidate()
+        }
         if player.playbackState == .stopped || player.playbackState == .paused || player.indexOfNowPlayingItem == 0 {
             print("stopped")
             player.stop()
@@ -57,7 +62,7 @@ final class Music: ObservableObject {
         else {
             print(player.nowPlayingItem!.playbackDuration * playRatio)
             print("timelog:\(Date().timeIntervalSince(timelog))")
-            Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
+            self.timer = Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
             timelog = Date()
         }
         print(#function + " end")
@@ -65,9 +70,23 @@ final class Music: ObservableObject {
 
     func stop() {
         player.stop()
+        if let t = self.timer {
+            t.invalidate()
+        }
     }
 
     func setCollection(collection: MPMediaItemCollection) {
         self.collection = collection
+    }
+    
+    func updateMediaQuery() {
+        self.mediaQuery = MPMediaQuery.albums()
+        self.collections = self.mediaQuery!.collections!
+        self.collections.sort(by: {
+            $0.items[0].albumTitle! < $1.items[0].albumTitle!
+        })
+        for collection in self.collections {
+            print(collection.items[0].albumTitle)
+        }
     }
 }
