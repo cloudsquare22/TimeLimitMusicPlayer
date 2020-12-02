@@ -12,6 +12,8 @@ final class Music: ObservableObject {
     var player: MPMusicPlayerController! = MPMusicPlayerController.systemMusicPlayer
     var playRatio: Double = 1.0
     @Published var mediaQuery: MPMediaQuery? = nil
+    var collection: MPMediaItemCollection? = nil
+    var timelog = Date()
     
     init() {
         self.mediaQuery = MPMediaQuery.albums()
@@ -19,36 +21,30 @@ final class Music: ObservableObject {
     
     func play(min: Double) {
         mediaQuery = MPMediaQuery.albums()
-        let collection = mediaQuery!.collections![1]
+//        collection = mediaQuery!.collections![1]
         var sumTime: TimeInterval = 0
-        for item in collection.items {
+        for item in collection!.items {
             sumTime = sumTime + item.playbackDuration
         }
         print(sumTime)
-        print(collection.count)
+        print(collection!.count)
         
         let playTime: TimeInterval = TimeInterval(Int(min) * 60)
         print(playTime)
         print(playTime / sumTime)
         playRatio = playTime / sumTime
         
-        player.setQueue(with: collection)
+        player.setQueue(with: collection!)
         player.play()
         
         print(player.nowPlayingItem!.playbackDuration * playRatio)
 
+        timelog = Date()
         Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
-        
-//        let content = UNMutableNotificationContent()
-//        content.title = "Next"
-//        content.subtitle = "Next"
-//        content.body = "Next"
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
-//        let request = UNNotificationRequest.init(identifier: "localNotificatoin", content: content, trigger: trigger)
-//        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
+}
 
     @objc private func timerUpdate() {
+        print(#function + " start")
         player.skipToNextItem()
         print(player.nowPlayingItem?.albumTrackNumber)
         print(player.playbackState.rawValue)
@@ -60,7 +56,9 @@ final class Music: ObservableObject {
         }
         else {
             print(player.nowPlayingItem!.playbackDuration * playRatio)
+            print("timelog:\(Date().timeIntervalSince(timelog))")
             Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
+            timelog = Date()
         }
         print(#function + " end")
     }
@@ -69,4 +67,7 @@ final class Music: ObservableObject {
         player.stop()
     }
 
+    func setCollection(collection: MPMediaItemCollection) {
+        self.collection = collection
+    }
 }
