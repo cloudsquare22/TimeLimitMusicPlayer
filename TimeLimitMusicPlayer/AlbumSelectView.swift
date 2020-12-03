@@ -14,7 +14,7 @@ struct AlbumSelectView: View {
     var body: some View {
         List {
             ForEach(0..<self.music.collections.count) { index in
-                if let artist = self.music.isSection(item: self.music.collections[index].items[0]), artist != "" {
+                if let artist = self.music.isSection(item: self.music.collections[index].representativeItem!), artist != "" {
                     Text(artist)
                 }
                 Button(action: {
@@ -23,7 +23,7 @@ struct AlbumSelectView: View {
                 }, label: {
                     HStack {
                         Image(systemName: "opticaldisc")
-                        Text(self.music.collections[index].items[0].albumTitle!)
+                        Text(self.music.collections[index].representativeItem!.albumTitle!)
                     }
                     .padding(.leading)
                 })

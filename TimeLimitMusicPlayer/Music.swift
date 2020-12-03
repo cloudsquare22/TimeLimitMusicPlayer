@@ -113,9 +113,13 @@ final class Music: ObservableObject {
             }
             return result
         })
-//        for collection in self.collections {
-//            print(collection.items[0].albumTitle)
-//        }
+        for collection in self.collections {
+            print("---------+---------+---------+---------+---------+")
+            print(collection.representativeItem?.albumTitle)
+            print(collection.representativeItem?.albumArtist)
+            print(collection.representativeItem?.title)
+            print(collection.representativeItem?.isCloudItem)
+        }
     }
     
     func isSection(item: MPMediaItem) -> String {
