@@ -23,16 +23,21 @@ struct ContentView: View {
             })
             Text("Min:\(Int(self.min))")
             Slider(value: self.$min, in: 10...90, step: 1)
-            Button(action: {
-                self.music.play(min: min)
-            }, label: {
-                Image("play")
-            })
-            Button(action: {
-                self.music.stop()
-            }, label: {
-                Image("stop")
-            })
+            HStack {
+                Button(action: {
+                    self.music.play(min: min)
+                }, label: {
+                    Image("play")
+                })
+                Button(action: {
+                    self.music.stop()
+                }, label: {
+                    Image("stop")
+                })
+            }
+            Text(self.music.artistName)
+            Text(self.music.albumTitle)
+            Text(self.music.musicTitle)
         }
         .padding()
         .sheet(isPresented: self.$selectAlbum, onDismiss: {}) {

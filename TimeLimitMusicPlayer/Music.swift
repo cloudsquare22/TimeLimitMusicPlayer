@@ -13,9 +13,13 @@ final class Music: ObservableObject {
     var playRatio: Double = 1.0
     var mediaQuery: MPMediaQuery? = nil
     @Published var collections: [MPMediaItemCollection] = []
+    @Published var albumTitle = ""
+    @Published var artistName = ""
+    @Published var musicTitle = ""
     var collection: MPMediaItemCollection? = nil
     var timelog = Date()
     var timer: Timer? = nil
+    var section: String = ""
     
     init() {
         self.mediaQuery = MPMediaQuery.albums()
@@ -42,12 +46,14 @@ final class Music: ObservableObject {
         print(player.nowPlayingItem!.playbackDuration * playRatio)
 
         timelog = Date()
+        self.setMusicDate(item: player.nowPlayingItem!)
         self.timer = Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
 }
 
     @objc private func timerUpdate() {
         print(#function + " start")
         player.skipToNextItem()
+        self.setMusicDate(item: player.nowPlayingItem!)
         print(player.nowPlayingItem?.albumTrackNumber)
         print(player.playbackState.rawValue)
         print("indexOfNowPlayingItem:\(player.indexOfNowPlayingItem)")
@@ -80,13 +86,68 @@ final class Music: ObservableObject {
     }
     
     func updateMediaQuery() {
+        self.section = ""
         self.mediaQuery = MPMediaQuery.albums()
         self.collections = self.mediaQuery!.collections!
         self.collections.sort(by: {
-            $0.items[0].albumTitle! < $1.items[0].albumTitle!
+            var result = true
+            var artist0 = ""
+            var artist1 = ""
+            if $0.items[0].albumArtist != nil {
+                artist0 = $0.items[0].albumArtist!
+            }
+            else {
+                artist0 = $0.items[0].artist!
+            }
+            if $1.items[0].albumArtist != nil {
+                artist1 = $1.items[0].albumArtist!
+            }
+            else {
+                artist1 = $1.items[0].artist!
+            }
+            if artist0 == artist1 {
+                result = $0.items[0].albumTitle! < $1.items[0].albumTitle!
+            }
+            else {
+                result = artist0 < artist1
+            }
+            return result
         })
-        for collection in self.collections {
-            print(collection.items[0].albumTitle)
+//        for collection in self.collections {
+//            print(collection.items[0].albumTitle)
+//        }
+    }
+    
+    func isSection(item: MPMediaItem) -> String {
+        var result = ""
+        var artist = ""
+        if item.albumArtist != nil {
+            artist = item.albumArtist!
+        }
+        else {
+            artist = item.artist!
+        }
+        if section != artist {
+            result = artist
+            section = artist
+        }
+        return result
+    }
+    
+    func setMusicDate(item: MPMediaItem) {
+        if let albumTitle = item.albumTitle {
+            self.albumTitle = albumTitle
+        }
+        var artist = ""
+        if let albumArtist = item.albumArtist {
+            artist = albumArtist
+        }
+        else {
+            artist = item.artist!
+        }
+        self.artistName = artist
+        if let musicTitle = item.title {
+            self.musicTitle = musicTitle
         }
     }
 }
