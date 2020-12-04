@@ -38,6 +38,7 @@ struct ContentView: View {
             Text(self.music.artistName)
             Text(self.music.albumTitle)
             Text(self.music.musicTitle)
+            Text("\(self.music.nowTrack)/\(self.music.albumTrackCount)")
         }
         .padding()
         .sheet(isPresented: self.$selectAlbum, onDismiss: {}) {

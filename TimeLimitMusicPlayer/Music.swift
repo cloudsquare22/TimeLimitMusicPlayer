@@ -16,6 +16,8 @@ final class Music: ObservableObject {
     @Published var albumTitle = ""
     @Published var artistName = ""
     @Published var musicTitle = ""
+    @Published var nowTrack = 0
+    @Published var albumTrackCount = 0
     var collection: MPMediaItemCollection? = nil
     var timelog = Date()
     var timer: Timer? = nil
@@ -46,6 +48,7 @@ final class Music: ObservableObject {
         print(player.nowPlayingItem!.playbackDuration * playRatio)
 
         timelog = Date()
+        self.albumTrackCount = collection!.count
         self.setMusicDate(item: player.nowPlayingItem!)
         self.timer = Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
 }
@@ -153,5 +156,6 @@ final class Music: ObservableObject {
         if let musicTitle = item.title {
             self.musicTitle = musicTitle
         }
+        self.nowTrack = item.albumTrackNumber
     }
 }
