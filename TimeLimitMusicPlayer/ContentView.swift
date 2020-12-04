@@ -24,16 +24,28 @@ struct ContentView: View {
             Text("Min:\(Int(self.min))")
             Slider(value: self.$min, in: 10...90, step: 1)
             HStack {
-                Button(action: {
-                    self.music.play(min: min)
-                }, label: {
-                    Image("play")
-                })
+                if self.music.collection != nil {
+                    Button(action: {
+                        self.music.play(min: min)
+                    }, label: {
+                        Image(systemName: "play.circle.fill")
+                            .font(.custom("system", size: 96))
+                            .foregroundColor(.black)
+                    })
+                }
+                else {
+                    Image(systemName: "play.circle.fill")
+                        .font(.custom("system", size: 96))
+                        .foregroundColor(.gray)
+                }
                 Button(action: {
                     self.music.stop()
                 }, label: {
-                    Image("stop")
+                    Image(systemName: "stop.circle.fill")
+                        .font(.custom("system", size: 96))
+                        .foregroundColor(self.music.nowPlay ? .black : .gray)
                 })
+                .disabled(!self.music.nowPlay)
             }
             Text(self.music.artistName)
             Text(self.music.albumTitle)
