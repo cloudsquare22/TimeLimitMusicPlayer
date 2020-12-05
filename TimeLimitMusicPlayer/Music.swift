@@ -13,6 +13,8 @@ final class Music: ObservableObject {
     var playRatio: Double = 1.0
     var mediaQuery: MPMediaQuery? = nil
     @Published var collections: [MPMediaItemCollection] = []
+    @Published var selectAlbumTitle = "-"
+    @Published var selectArtistName = "-"
     @Published var albumTitle = "-"
     @Published var artistName = "-"
     @Published var musicTitle = "-"
@@ -88,7 +90,7 @@ final class Music: ObservableObject {
 
     func setCollection(collection: MPMediaItemCollection) {
         self.collection = collection
-        self.albumTitle = collection.representativeItem?.albumTitle ?? "-"
+        self.selectAlbumTitle = collection.representativeItem?.albumTitle ?? "-"
         var artist = ""
         if let albumArtist = collection.representativeItem?.albumArtist {
             artist = albumArtist
@@ -96,7 +98,7 @@ final class Music: ObservableObject {
         else {
             artist = collection.representativeItem?.artist ?? "-"
         }
-        self.artistName = artist
+        self.selectArtistName = artist
     }
     
     func updateMediaQuery() {
@@ -153,6 +155,15 @@ final class Music: ObservableObject {
     }
     
     func setMusicDate(item: MPMediaItem) {
+        self.albumTitle = item.albumTitle ?? "-"
+        var artist = ""
+        if let albumArtist = item.albumArtist {
+            artist = albumArtist
+        }
+        else {
+            artist = item.artist ?? "-"
+        }
+        self.artistName = artist
         if let musicTitle = item.title {
             self.musicTitle = musicTitle
         }
