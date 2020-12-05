@@ -9,26 +9,48 @@ import SwiftUI
 
 
 struct ContentView: View {
+    @State private var selection = 2
     @EnvironmentObject var music: Music
     @State var min: Double = 45
 
     var body: some View {
-        VStack {
-            SelectAlbumView()
-            TimeControlView(min: $min)
-            PlayControlView(min: $min)
-            NowPlayingView()
-        }
-        .padding()
-        .onAppear() {
-            print(#function)
-            print("onAppear()")
-            UIApplication.shared.isIdleTimerDisabled = true
-        }
-        .onDisappear() {
-            print(#function)
-            print("onDisappear()")
-            UIApplication.shared.isIdleTimerDisabled = false
+        TabView(selection: $selection) {
+            SettingView()
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("Setting")
+                }
+                .tag(1)
+            VStack {
+                SelectAlbumView()
+                TimeControlView(min: $min)
+                PlayControlView(min: $min)
+                NowPlayingView()
+            }
+            .padding()
+            .onAppear() {
+                print(#function)
+                print("onAppear()")
+                UIApplication.shared.isIdleTimerDisabled = true
+            }
+            .onDisappear() {
+                print(#function)
+                print("onDisappear()")
+                UIApplication.shared.isIdleTimerDisabled = false
+            }
+            .tabItem {
+                VStack {
+                    Image(systemName: "music.quarternote.3")
+                    Text("Player")
+                }
+            }
+            .tag(2)
+            AboutView()
+                .tabItem {
+                    Image(systemName: "doc")
+                    Text("About")
+                }
+                .tag(3)
         }
     }
 }

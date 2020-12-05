@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D49B293257BAFEE00701BED /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49B292257BAFEE00701BED /* SettingView.swift */; };
+		8D49B296257BB07800701BED /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49B295257BB07800701BED /* AboutView.swift */; };
 		8D5D1CD2256F086C00A9FA49 /* TimeLimitMusicPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5D1CD1256F086C00A9FA49 /* TimeLimitMusicPlayerApp.swift */; };
 		8D5D1CD4256F086C00A9FA49 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5D1CD3256F086C00A9FA49 /* ContentView.swift */; };
 		8D5D1CD6256F086C00A9FA49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5D1CD5256F086C00A9FA49 /* Assets.xcassets */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D49B292257BAFEE00701BED /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		8D49B295257BB07800701BED /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		8D5D1CCE256F086C00A9FA49 /* TimeLimitMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeLimitMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5D1CD1256F086C00A9FA49 /* TimeLimitMusicPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLimitMusicPlayerApp.swift; sourceTree = "<group>"; };
 		8D5D1CD3256F086C00A9FA49 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 				8D5D1CD7256F086C00A9FA49 /* Preview Content */,
 				8D98EFF32570542E0091356E /* Music.swift */,
 				8DBC9D9C2576EF4D0077C437 /* AlbumSelectView.swift */,
+				8D49B292257BAFEE00701BED /* SettingView.swift */,
+				8D49B295257BB07800701BED /* AboutView.swift */,
 			);
 			path = TimeLimitMusicPlayer;
 			sourceTree = "<group>";
@@ -145,8 +151,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DBC9D9D2576EF4D0077C437 /* AlbumSelectView.swift in Sources */,
+				8D49B293257BAFEE00701BED /* SettingView.swift in Sources */,
 				8D5D1CD4256F086C00A9FA49 /* ContentView.swift in Sources */,
 				8D5D1CD2256F086C00A9FA49 /* TimeLimitMusicPlayerApp.swift in Sources */,
+				8D49B296257BB07800701BED /* AboutView.swift in Sources */,
 				8D98EFF42570542E0091356E /* Music.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
