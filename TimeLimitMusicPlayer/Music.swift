@@ -20,6 +20,7 @@ final class Music: ObservableObject {
     @Published var musicTitle = "-"
     @Published var nowTrack = 0
     @Published var albumTrackCount = 0
+    @Published var maxTime = 90
     var collection: MPMediaItemCollection? = nil
     var timer: Timer? = nil
     var section: String = ""

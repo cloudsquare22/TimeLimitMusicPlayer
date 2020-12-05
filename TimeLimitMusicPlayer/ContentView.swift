@@ -68,20 +68,13 @@ struct PlayControlView: View {
 
     var body: some View {
         HStack {
-            if self.music.collection != nil {
-                Button(action: {
-                    self.music.play(min: min)
-                }, label: {
-                    Image(systemName: "play.circle.fill")
-                        .font(.custom("system", size: 96))
-                        .foregroundColor(.primary)
-                })
-            }
-            else {
+            Button(action: {
+                self.music.play(min: min)
+            }, label: {
                 Image(systemName: "play.circle.fill")
                     .font(.custom("system", size: 96))
-                    .foregroundColor(.gray)
-            }
+                    .foregroundColor(self.music.collection != nil ? .primary : .gray)
+            })
             Button(action: {
                 self.music.stop()
             }, label: {
