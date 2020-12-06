@@ -28,16 +28,6 @@ struct ContentView: View {
                 NowPlayingView()
             }
             .padding()
-            .onAppear() {
-                print(#function)
-                print("onAppear()")
-                UIApplication.shared.isIdleTimerDisabled = true
-            }
-            .onDisappear() {
-                print(#function)
-                print("onDisappear()")
-                UIApplication.shared.isIdleTimerDisabled = false
-            }
             .tabItem {
                 VStack {
                     Image(systemName: "music.quarternote.3")

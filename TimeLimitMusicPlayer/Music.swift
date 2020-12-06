@@ -50,7 +50,8 @@ final class Music: ObservableObject {
         player.setQueue(with: collection!)
         player.play()
         self.nowPlay = true
-        
+        UIApplication.shared.isIdleTimerDisabled = true
+
         print(player.nowPlayingItem!.playbackDuration * self.playRatio)
 
         self.albumTrackCount = collection!.count
@@ -72,6 +73,7 @@ final class Music: ObservableObject {
             print("stopped")
             player.stop()
             self.nowPlay = false
+            UIApplication.shared.isIdleTimerDisabled = false
             print(player.playbackState.rawValue)
         }
         else {
@@ -84,6 +86,7 @@ final class Music: ObservableObject {
     func stop() {
         player.stop()
         self.nowPlay = false
+        UIApplication.shared.isIdleTimerDisabled = false
         if let t = self.timer {
             t.invalidate()
         }
