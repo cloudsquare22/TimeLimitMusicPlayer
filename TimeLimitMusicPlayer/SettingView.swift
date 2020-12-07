@@ -8,8 +8,28 @@
 import SwiftUI
 
 struct SettingView: View {
+    @State var minTracks = "6"
+    @State var iCloud = true
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            Form {
+                Section {
+                    HStack {
+                        Text("Title")
+                        TextField("Min Tracks", text: self.$minTracks)
+                        TextField(
+                    }
+                    HStack {
+                        Text("Title")
+                        TextField("MinTracks", text: self.$minTracks)
+                    }
+                    Toggle("Use iCloud", isOn: self.$iCloud)
+                }
+            }
+            .navigationBarTitle("Setting")
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
