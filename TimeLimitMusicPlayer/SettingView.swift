@@ -8,22 +8,14 @@
 import SwiftUI
 
 struct SettingView: View {
-    @State var minTracks = "6"
+    @State var minTracks = 6
     @State var iCloud = true
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    HStack {
-                        Text("Title")
-                        TextField("Min Tracks", text: self.$minTracks)
-                        TextField(
-                    }
-                    HStack {
-                        Text("Title")
-                        TextField("MinTracks", text: self.$minTracks)
-                    }
+                    NumberPlusMinusInputView(title: "Min Tracks",  number: self.$minTracks)
                     Toggle("Use iCloud", isOn: self.$iCloud)
                 }
             }

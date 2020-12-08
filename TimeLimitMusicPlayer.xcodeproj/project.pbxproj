@@ -15,6 +15,7 @@
 		8D5D1CD9256F086C00A9FA49 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5D1CD8256F086C00A9FA49 /* Preview Assets.xcassets */; };
 		8D98EFF42570542E0091356E /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D98EFF32570542E0091356E /* Music.swift */; };
 		8DA3230A257EDCA300BF8F16 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8DA32309257EDCA300BF8F16 /* Localizable.strings */; };
+		8DA3230D257FA45300BF8F16 /* NumberPlusMinusInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA3230C257FA45300BF8F16 /* NumberPlusMinusInputView.swift */; };
 		8DBC9D9D2576EF4D0077C437 /* AlbumSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBC9D9C2576EF4D0077C437 /* AlbumSelectView.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		8D5D1CDA256F086C00A9FA49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D98EFF32570542E0091356E /* Music.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
 		8DA32309257EDCA300BF8F16 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		8DA3230C257FA45300BF8F16 /* NumberPlusMinusInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPlusMinusInputView.swift; sourceTree = "<group>"; };
 		8DBC9D9C2576EF4D0077C437 /* AlbumSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumSelectView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,7 @@
 				8D49B292257BAFEE00701BED /* SettingView.swift */,
 				8D49B295257BB07800701BED /* AboutView.swift */,
 				8DA32309257EDCA300BF8F16 /* Localizable.strings */,
+				8DA3230C257FA45300BF8F16 /* NumberPlusMinusInputView.swift */,
 			);
 			path = TimeLimitMusicPlayer;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 				8D5D1CD4256F086C00A9FA49 /* ContentView.swift in Sources */,
 				8D5D1CD2256F086C00A9FA49 /* TimeLimitMusicPlayerApp.swift in Sources */,
 				8D49B296257BB07800701BED /* AboutView.swift in Sources */,
+				8DA3230D257FA45300BF8F16 /* NumberPlusMinusInputView.swift in Sources */,
 				8D98EFF42570542E0091356E /* Music.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
