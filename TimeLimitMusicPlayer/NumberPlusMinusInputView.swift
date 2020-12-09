@@ -18,18 +18,8 @@ struct NumberPlusMinusInputView: View {
             }
             Spacer()
             Text(String(number))
-            Image(systemName: "minus.square.fill")
-                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                    self.number = self.number - 1
-                })
-                .font(.title)
-                .foregroundColor(.blue)
-            Image(systemName: "plus.square.fill")
-                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                    self.number = self.number + 1
-                })
-                .font(.title)
-                .foregroundColor(.blue)
+            Stepper(value: self.$number, in: 1...100, step: 1, label: {})
+                .labelsHidden()
         }
     }
 }

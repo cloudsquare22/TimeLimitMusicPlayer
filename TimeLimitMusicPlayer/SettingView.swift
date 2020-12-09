@@ -15,6 +15,11 @@ struct SettingView: View {
         NavigationView {
             Form {
                 Section {
+                    Stepper(value: self.$minTracks, in: 1...100, step: 1) {
+                        Text("Min Tracks")
+                        Spacer()
+                        Text("\(self.minTracks)")
+                    }
                     NumberPlusMinusInputView(title: "Min Tracks",  number: self.$minTracks)
                     Toggle("Use iCloud", isOn: self.$iCloud)
                 }
