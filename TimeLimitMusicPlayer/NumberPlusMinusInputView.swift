@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NumberPlusMinusInputView: View {
     var title: String? = nil
+    var range: ClosedRange<Int> = 1...10
+    var step: Int = 1
     @Binding var number: Int
     
     var body: some View {
@@ -18,7 +20,7 @@ struct NumberPlusMinusInputView: View {
             }
             Spacer()
             Text(String(number))
-            Stepper(value: self.$number, in: 1...100, step: 1, label: {})
+            Stepper(value: self.$number, in: range, step: step, label: {})
                 .labelsHidden()
         }
     }

@@ -25,6 +25,7 @@ final class Music: ObservableObject {
     var timer: Timer? = nil
     var section: String = ""
     @Published var nowPlay = false
+    let userDefaults = UserDefaults.standard
     
     init() {
         self.mediaQuery = MPMediaQuery.albums()
@@ -108,7 +109,12 @@ final class Music: ObservableObject {
     func updateMediaQuery() {
         self.section = ""
         self.mediaQuery = MPMediaQuery.albums()
-        self.collections = self.mediaQuery!.collections!
+        let albumCollections = self.mediaQuery!.collections!
+        var minTracks = 6
+        if let value = userDefaults.value(forKey: "minTracks") {
+            minTracks = value as! Int
+        }
+        self.collections = albumCollections.filter({collection in collection.items.count > minTracks})
         self.collections.sort(by: {
             var result = true
             var artist0 = ""
