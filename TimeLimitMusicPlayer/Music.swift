@@ -148,6 +148,18 @@ final class Music: ObservableObject {
         }
     }
     
+    func shuffleAlbum() {
+        self.mediaQuery = MPMediaQuery.albums()
+        let albumCollections = self.mediaQuery!.collections!
+        var minTracks = 6
+        if let value = userDefaults.value(forKey: "minTracks") {
+            minTracks = value as! Int
+        }
+        self.collections = albumCollections.filter({collection in collection.items.count > minTracks})
+        let select = Int.random(in: 0..<self.collections.count)
+        self.setCollection(collection: self.collections[select])
+    }
+    
     func isSection(item: MPMediaItem) -> String {
         var result = ""
         var artist = ""
@@ -177,6 +189,6 @@ final class Music: ObservableObject {
         if let musicTitle = item.title {
             self.musicTitle = musicTitle
         }
-        self.nowTrack = item.albumTrackNumber
+        self.nowTrack = player.indexOfNowPlayingItem + 1
     }
 }

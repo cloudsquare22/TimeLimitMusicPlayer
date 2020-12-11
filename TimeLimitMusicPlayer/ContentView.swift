@@ -96,14 +96,29 @@ struct SelectAlbumView: View {
 
     var body: some View {
         VStack {
-            Button(action: {
-                self.music.updateMediaQuery()
-                self.selectAlbum = true
-            }, label: {
-                Image(systemName: "opticaldisc")
-                    .font(.custom("system", size: 96))
-                    .foregroundColor(.primary)
-            })
+            HStack {
+                Button(action: {
+                    self.music.updateMediaQuery()
+                    self.selectAlbum = true
+                }, label: {
+                    Image(systemName: "opticaldisc")
+                        .font(.custom("system", size: 96))
+                        .foregroundColor(.primary)
+                })
+                Button(action: {
+                    self.music.shuffleAlbum()
+                }, label: {
+                    ZStack {
+                        Image(systemName: "opticaldisc")
+                            .font(.custom("system", size: 96))
+                            .foregroundColor(.primary)
+                        Image(systemName: "shuffle")
+                            .font(.custom("system", size: 84))
+                            .foregroundColor(.primary)
+                    }
+                })
+
+            }
             Text(self.music.selectArtistName)
             Text(self.music.selectAlbumTitle)
         }
