@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     @State var minTracks = 6
-    @State var iCloud = true
+    @State var iCloud = false
     let userDefaults = UserDefaults.standard
 
     var body: some View {
@@ -26,12 +26,14 @@ struct SettingView: View {
         .onDisappear() {
             print("Setting onDisapper")
             userDefaults.set(self.minTracks, forKey: "minTracks")
+            userDefaults.set(self.iCloud, forKey: "iCloud")
         }
         .onAppear() {
             print("Setting onApper")
             if let value = userDefaults.value(forKey: "minTracks") {
                 self.minTracks = value as! Int
             }
+            self.iCloud = userDefaults.bool(forKey: "iCloud")
         }
     }
 }

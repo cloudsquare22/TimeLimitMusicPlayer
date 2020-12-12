@@ -106,15 +106,35 @@ final class Music: ObservableObject {
         self.selectArtistName = artist
     }
     
-    func updateMediaQuery() {
+    func updateMediaQuery(sorted: Bool) {
         self.section = ""
         self.mediaQuery = MPMediaQuery.albums()
         let albumCollections = self.mediaQuery!.collections!
+        let settingData = self.getSettingData()
+        self.collections = albumCollections
+            .filter({collection in collection.items.count > settingData.minTracks})
+            .filter({ collection in
+                var result = false
+                if settingData.iCloud == true {
+                    result = collection.representativeItem?.isCloudItem == true
+                }
+                return result
+            })
+        if sorted == true {
+            self.sortCollections()
+        }
+    }
+    
+    func getSettingData() -> (minTracks: Int, iCloud: Bool) {
         var minTracks = 6
         if let value = userDefaults.value(forKey: "minTracks") {
             minTracks = value as! Int
         }
-        self.collections = albumCollections.filter({collection in collection.items.count > minTracks})
+        let iCloud = userDefaults.bool(forKey: "iCloud")
+        return (minTracks, iCloud)
+    }
+    
+    func sortCollections() {
         self.collections.sort(by: {
             var result = true
             var artist0 = ""
@@ -139,25 +159,14 @@ final class Music: ObservableObject {
             }
             return result
         })
-        for collection in self.collections {
-            print("---------+---------+---------+---------+---------+")
-            print(collection.representativeItem?.albumTitle)
-            print(collection.representativeItem?.albumArtist)
-            print(collection.representativeItem?.title)
-            print(collection.representativeItem?.isCloudItem)
-        }
     }
     
     func shuffleAlbum() {
-        self.mediaQuery = MPMediaQuery.albums()
-        let albumCollections = self.mediaQuery!.collections!
-        var minTracks = 6
-        if let value = userDefaults.value(forKey: "minTracks") {
-            minTracks = value as! Int
+        self.updateMediaQuery(sorted: false)
+        if self.collections.count != 0 {
+            let select = Int.random(in: 0..<self.collections.count)
+            self.setCollection(collection: self.collections[select])
         }
-        self.collections = albumCollections.filter({collection in collection.items.count > minTracks})
-        let select = Int.random(in: 0..<self.collections.count)
-        self.setCollection(collection: self.collections[select])
     }
     
     func isSection(item: MPMediaItem) -> String {

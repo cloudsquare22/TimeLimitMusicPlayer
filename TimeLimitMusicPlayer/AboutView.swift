@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct AboutView: View {
+    let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Image("tlmp")
+                .background(Rectangle()
+                                .cornerRadius(45)
+                                .foregroundColor(.white))
+            Text("Version \(self.version)")
+        }
     }
 }
 

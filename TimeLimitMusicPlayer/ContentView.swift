@@ -98,7 +98,7 @@ struct SelectAlbumView: View {
         VStack {
             HStack {
                 Button(action: {
-                    self.music.updateMediaQuery()
+                    self.music.updateMediaQuery(sorted: true)
                     self.selectAlbum = true
                 }, label: {
                     Image(systemName: "opticaldisc")
