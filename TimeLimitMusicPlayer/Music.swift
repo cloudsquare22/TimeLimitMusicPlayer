@@ -64,9 +64,9 @@ final class Music: ObservableObject {
         print(#function + " start")
         player.skipToNextItem()
         self.setMusicDate(item: player.nowPlayingItem!)
-        print(player.nowPlayingItem?.albumTrackNumber)
-        print(player.playbackState.rawValue)
-        print("indexOfNowPlayingItem:\(player.indexOfNowPlayingItem)")
+//        print(player.nowPlayingItem?.albumTrackNumber)
+//        print(player.playbackState.rawValue)
+//        print("indexOfNowPlayingItem:\(player.indexOfNowPlayingItem)")
         if let t = self.timer {
             t.invalidate()
         }
