@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingView: View {
     @State var minTracks = 6
     @State var iCloud = false
+    @State var addPlaylists = false
     let userDefaults = UserDefaults.standard
 
     var body: some View {
@@ -18,6 +19,7 @@ struct SettingView: View {
                 Section {
                     NumberPlusMinusInputView(title: "Min Tracks", range: 1...20, step: 1, number: self.$minTracks)
                     Toggle("Use iCloud", isOn: self.$iCloud)
+                    Toggle("Add Playlists", isOn: self.$addPlaylists)
                 }
             }
             .navigationBarTitle("Setting")
@@ -27,6 +29,7 @@ struct SettingView: View {
             print("Setting onDisapper")
             userDefaults.set(self.minTracks, forKey: "minTracks")
             userDefaults.set(self.iCloud, forKey: "iCloud")
+            userDefaults.set(self.addPlaylists, forKey: "addPlaylists")
         }
         .onAppear() {
             print("Setting onApper")
@@ -34,6 +37,7 @@ struct SettingView: View {
                 self.minTracks = value as! Int
             }
             self.iCloud = userDefaults.bool(forKey: "iCloud")
+            self.addPlaylists = userDefaults.bool(forKey: "addPlaylists")
         }
     }
 }

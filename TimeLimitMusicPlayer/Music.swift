@@ -95,22 +95,34 @@ final class Music: ObservableObject {
 
     func setCollection(collection: MPMediaItemCollection) {
         self.collection = collection
-        self.selectAlbumTitle = collection.representativeItem?.albumTitle ?? "-"
-        var artist = ""
-        if let albumArtist = collection.representativeItem?.albumArtist {
-            artist = albumArtist
+
+        if let playlistName = self.collection?.value(forProperty: MPMediaPlaylistPropertyName) as? String {
+            print("Playlists")
+            self.selectAlbumTitle = playlistName
+            self.selectArtistName = "Playlists"
         }
         else {
-            artist = collection.representativeItem?.artist ?? "-"
+            self.selectAlbumTitle = collection.representativeItem?.albumTitle ?? "-"
+            var artist = ""
+            if let albumArtist = collection.representativeItem?.albumArtist {
+                artist = albumArtist
+            }
+            else {
+                artist = collection.representativeItem?.artist ?? "-"
+            }
+            self.selectArtistName = artist
         }
-        self.selectArtistName = artist
     }
     
     func updateMediaQuery(sorted: Bool) {
         self.section = ""
         self.mediaQuery = MPMediaQuery.albums()
-        let albumCollections = self.mediaQuery!.collections!
+        var albumCollections = self.mediaQuery!.collections!
         let settingData = self.getSettingData()
+        if settingData.addPlaylists == true {
+            self.mediaQuery = MPMediaQuery.playlists()
+            albumCollections.append(contentsOf: self.mediaQuery!.collections!)
+        }
         self.collections = albumCollections
             .filter({collection in collection.items.count > settingData.minTracks})
             .filter({ collection in
@@ -125,13 +137,14 @@ final class Music: ObservableObject {
         }
     }
     
-    func getSettingData() -> (minTracks: Int, iCloud: Bool) {
+    func getSettingData() -> (minTracks: Int, iCloud: Bool, addPlaylists: Bool) {
         var minTracks = 6
         if let value = userDefaults.value(forKey: "minTracks") {
             minTracks = value as! Int
         }
         let iCloud = userDefaults.bool(forKey: "iCloud")
-        return (minTracks, iCloud)
+        let addPlaylists = userDefaults.bool(forKey: "addPlaylists")
+        return (minTracks, iCloud, addPlaylists)
     }
     
     func sortCollections() {
