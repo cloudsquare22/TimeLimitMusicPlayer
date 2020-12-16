@@ -116,22 +116,26 @@ final class Music: ObservableObject {
     
     func updateMediaQuery(sorted: Bool) {
         self.section = ""
-        self.mediaQuery = MPMediaQuery.albums()
-        var albumCollections = self.mediaQuery!.collections!
         let settingData = self.getSettingData()
+        let iCloudFilter = MPMediaPropertyPredicate(value: settingData.iCloud,
+                                                    forProperty: MPMediaItemPropertyIsCloudItem,
+                                                    comparisonType: .equalTo)
+        self.mediaQuery = MPMediaQuery.albums()
+        self.mediaQuery?.addFilterPredicate(iCloudFilter)
+        var albumCollections = self.mediaQuery!.collections!
         if settingData.addPlaylists == true {
             self.mediaQuery = MPMediaQuery.playlists()
             albumCollections.append(contentsOf: self.mediaQuery!.collections!)
         }
         self.collections = albumCollections
             .filter({collection in collection.items.count > settingData.minTracks})
-            .filter({ collection in
-                var result = false
-                if settingData.iCloud == true {
-                    result = collection.representativeItem?.isCloudItem == true
-                }
-                return result
-            })
+//            .filter({ collection in
+//                var result = false
+//                if settingData.iCloud == true {
+//                    result = collection.representativeItem?.isCloudItem == true
+//                }
+//                return result
+//            })
         if sorted == true {
             self.sortCollections()
         }
@@ -183,6 +187,13 @@ final class Music: ObservableObject {
     }
     
     func isSection(item: MPMediaItem) -> String {
+        if let playlistName = item.value(forProperty: MPMediaPlaylistPropertyName) as? String {
+            print("Playlists:\(playlistName)")
+        }
+        else {
+            print("Album")
+        }
+
         var result = ""
         var artist = ""
         if item.albumArtist != nil {
@@ -191,9 +202,9 @@ final class Music: ObservableObject {
         else {
             artist = item.artist!
         }
-        if section != artist {
+        if self.section != artist {
             result = artist
-            section = artist
+            self.section = artist
         }
         return result
     }
