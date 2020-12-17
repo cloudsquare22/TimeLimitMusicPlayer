@@ -93,13 +93,25 @@ struct NowPlayingView: View {
 struct SelectAlbumView: View {
     @EnvironmentObject var music: Music
     @State var selectAlbum: Bool = false
+    @State var selectPlaylist: Bool = false
+    @State var onSheet: Bool = false
 
     var body: some View {
         VStack {
             HStack {
                 Button(action: {
+                    self.music.updateMediaQuery(sorted: true, album: false, playlist: false)
+                    self.selectPlaylist = true
+                    self.onSheet = true
+                }, label: {
+                    Image(systemName: "music.note.list")
+                        .font(.custom("system", size: 96))
+                        .foregroundColor(.primary)
+                })
+                Button(action: {
                     self.music.updateMediaQuery(sorted: true)
                     self.selectAlbum = true
+                    self.onSheet = true
                 }, label: {
                     Image(systemName: "opticaldisc")
                         .font(.custom("system", size: 96))
@@ -122,8 +134,13 @@ struct SelectAlbumView: View {
             Text(self.music.selectArtistName)
             Text(self.music.selectAlbumTitle)
         }
-        .sheet(isPresented: self.$selectAlbum, onDismiss: {}) {
-            AlbumSelectView()
+        .sheet(isPresented: self.$onSheet, onDismiss: {}) {
+            if self.selectAlbum == true {
+                AlbumSelectView()
+            }
+            else if self.selectPlaylist == true {
+                PlaylistSelectView()
+            }
         }
     }
 }

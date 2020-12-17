@@ -114,28 +114,21 @@ final class Music: ObservableObject {
         }
     }
     
-    func updateMediaQuery(sorted: Bool) {
+    func updateMediaQuery(sorted: Bool, album: Bool = true, playlist: Bool = false) {
         self.section = ""
         let settingData = self.getSettingData()
-//        let iCloudFilter = MPMediaPropertyPredicate(value: settingData.iCloud,
-//                                                    forProperty: MPMediaItemPropertyIsCloudItem,
-//                                                    comparisonType: .equalTo)
-        self.mediaQuery = MPMediaQuery.albums()
-//        self.mediaQuery?.addFilterPredicate(iCloudFilter)
-        var albumCollections = self.mediaQuery!.collections!
-//        for collection in self.mediaQuery!.collections! {
-//            print("# \(collection.representativeItem?.albumTitle) : \(collection.representativeItem?.isCloudItem)")
-//        }
-        if settingData.addPlaylists == true {
-            self.mediaQuery = MPMediaQuery.playlists()
-//            self.mediaQuery?.addFilterPredicate(iCloudFilter)
-            albumCollections.append(contentsOf: self.mediaQuery!.collections!)
-//            for collection in self.mediaQuery!.collections! {
-//                let pl = collection as! MPMediaPlaylist
-//                print("@ \(pl.name) : \(collection.representativeItem?.isCloudItem)")
-//            }
+        var updateCollections: [MPMediaItemCollection] = []
+        if album == true {
+            self.mediaQuery = MPMediaQuery.albums()
+            updateCollections.append(contentsOf: self.mediaQuery!.collections!)
         }
-        self.collections = albumCollections
+        if playlist == true {
+            if settingData.addPlaylists == true {
+                self.mediaQuery = MPMediaQuery.playlists()
+                updateCollections.append(contentsOf: self.mediaQuery!.collections!)
+            }
+        }
+        self.collections = updateCollections
             .filter({collection in collection.items.count > settingData.minTracks})
             .filter({ collection in
                 var result = false
@@ -187,7 +180,7 @@ final class Music: ObservableObject {
     }
     
     func shuffleAlbum() {
-        self.updateMediaQuery(sorted: false)
+        self.updateMediaQuery(sorted: false, album: true, playlist: true)
         if self.collections.count != 0 {
             let select = Int.random(in: 0..<self.collections.count)
             self.setCollection(collection: self.collections[select])
