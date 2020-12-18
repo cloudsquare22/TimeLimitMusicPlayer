@@ -100,7 +100,7 @@ struct SelectAlbumView: View {
         VStack {
             HStack {
                 Button(action: {
-                    self.music.updateMediaQuery(sorted: true, album: false, playlist: false)
+                    self.music.updateMediaQuery(sorted: true, album: false, playlist: true)
                     self.selectPlaylist = true
                     self.onSheet = true
                 }, label: {
@@ -133,8 +133,12 @@ struct SelectAlbumView: View {
             }
             Text(self.music.selectArtistName)
             Text(self.music.selectAlbumTitle)
+            Text("All time Min: \(self.music.sumTime / 60)")
         }
-        .sheet(isPresented: self.$onSheet, onDismiss: {}) {
+        .sheet(isPresented: self.$onSheet, onDismiss: {
+            self.selectAlbum = false
+            self.selectPlaylist = false
+        }) {
             if self.selectAlbum == true {
                 AlbumSelectView()
             }

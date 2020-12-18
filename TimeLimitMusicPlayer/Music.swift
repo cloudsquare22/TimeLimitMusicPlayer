@@ -21,6 +21,7 @@ final class Music: ObservableObject {
     @Published var nowTrack = 0
     @Published var albumTrackCount = 0
     @Published var maxTime = 90
+    @Published var sumTime: TimeInterval = 0
     var collection: MPMediaItemCollection? = nil
     var timer: Timer? = nil
     var section: String = ""
@@ -95,6 +96,10 @@ final class Music: ObservableObject {
 
     func setCollection(collection: MPMediaItemCollection) {
         self.collection = collection
+        self.sumTime = 0
+        for item in collection.items {
+            self.sumTime = self.sumTime + item.playbackDuration
+        }
 
         if let playlistName = self.collection?.value(forProperty: MPMediaPlaylistPropertyName) as? String {
             print("Playlists")
