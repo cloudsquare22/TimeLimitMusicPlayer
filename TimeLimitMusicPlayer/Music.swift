@@ -31,19 +31,22 @@ final class Music: ObservableObject {
     init() {
         self.mediaQuery = MPMediaQuery.albums()
     }
+    var intervalSec = 0
     
     func play(min: Double) {
-//        self.mediaQuery = MPMediaQuery.albums()
-//        collection = mediaQuery!.collections![1]
+        if let value = userDefaults.value(forKey: "intervalSec") {
+            self.intervalSec = value as! Int
+        }
         var sumTime: TimeInterval = 0
         for item in collection!.items {
             sumTime = sumTime + item.playbackDuration
         }
         print(sumTime)
-        print(collection!.count)
+        print(self.collection!.count)
+        print("Interval sec:\(intervalSec * (self.collection!.count - 1))")
         
         let playTime: TimeInterval = TimeInterval(Int(min) * 60)
-        self.playRatio = playTime / sumTime
+        self.playRatio = (playTime - Double(intervalSec * (self.collection!.count - 1))) / sumTime
         if self.playRatio > 1.0 {
             self.playRatio = 1.0
         }
@@ -63,7 +66,10 @@ final class Music: ObservableObject {
 
     @objc private func timerUpdate() {
         print(#function + " start")
+        player.pause()
+        sleep(UInt32(self.intervalSec))
         player.skipToNextItem()
+        player.play()
         self.setMusicDate(item: player.nowPlayingItem!)
 //        print(player.nowPlayingItem?.albumTrackNumber)
 //        print(player.playbackState.rawValue)
@@ -71,7 +77,7 @@ final class Music: ObservableObject {
         if let t = self.timer {
             t.invalidate()
         }
-        if player.playbackState == .stopped || player.playbackState == .paused || player.indexOfNowPlayingItem == 0 {
+        if player.playbackState == .stopped || player.indexOfNowPlayingItem == 0 {
             print("stopped")
             player.stop()
             self.nowPlay = false
