@@ -37,6 +37,7 @@ final class Music: ObservableObject {
         if let value = userDefaults.value(forKey: "intervalSec") {
             self.intervalSec = value as! Int
         }
+        self.userDefaults.set(min, forKey: "sliderTime")
         var sumTime: TimeInterval = 0
         for item in collection!.items {
             sumTime = sumTime + item.playbackDuration
@@ -62,7 +63,7 @@ final class Music: ObservableObject {
         self.albumTrackCount = collection!.count
         self.setMusicDate(item: player.nowPlayingItem!)
         self.timer = Timer.scheduledTimer(timeInterval: player.nowPlayingItem!.playbackDuration * playRatio, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: false)
-}
+    }
 
     @objc private func timerUpdate() {
         print(#function + " start")

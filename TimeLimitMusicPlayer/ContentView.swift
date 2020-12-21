@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct ContentView: View {
     @State private var selection = 2
     @EnvironmentObject var music: Music
@@ -151,11 +150,20 @@ struct SelectAlbumView: View {
 
 struct TimeControlView: View {
     @Binding var min: Double
+    let userDefaults = UserDefaults.standard
 
     var body: some View {
         VStack {
             Text("Min:\(Int(self.min))")
             Slider(value: self.$min, in: 10...90, step: 1)
+        }
+        .onAppear() {
+            if let min = self.userDefaults.value(forKey: "sliderTime") {
+                self.min = min as! Double
+            }
+        }
+        .onDisappear() {
+            self.userDefaults.set(self.min, forKey: "sliderTime")
         }
     }
 }
