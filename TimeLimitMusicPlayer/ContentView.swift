@@ -132,10 +132,12 @@ struct SelectAlbumView: View {
             }
             Text(self.music.selectArtistName)
                 .font(.title)
+                .padding(EdgeInsets(top: 4.0, leading: 0, bottom: 0, trailing: 0))
             Text(self.music.selectAlbumTitle)
                 .font(.title)
             Text("All time Min.: \(self.music.sumTime / 60)")
                 .font(.title)
+                .padding(EdgeInsets(top: 4.0, leading: 0, bottom: 0, trailing: 0))
         }
         .sheet(isPresented: self.$onSheet, onDismiss: {
             self.selectAlbum = false
@@ -158,8 +160,8 @@ struct TimeControlView: View {
     var body: some View {
         VStack {
             Text("Play time Min.:\(Int(self.min))")
-            Slider(value: self.$min, in: 10...90, step: 1)
                 .font(.title)
+            Slider(value: self.$min, in: 10...90, step: 1)
         }
         .onAppear() {
             if let min = self.userDefaults.value(forKey: "sliderTime") {
