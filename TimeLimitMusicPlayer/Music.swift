@@ -18,6 +18,7 @@ final class Music: ObservableObject {
     @Published var albumTitle = "-"
     @Published var artistName = "-"
     @Published var musicTitle = "-"
+    @Published var artwork: UIImage? = nil
     @Published var nowTrack = 0
     @Published var albumTrackCount = 0
     @Published var maxTime = 90
@@ -123,6 +124,9 @@ final class Music: ObservableObject {
                 artist = collection.representativeItem?.artist ?? "-"
             }
             self.selectArtistName = artist
+            if let artwork = collection.representativeItem?.artwork {
+                self.artwork = artwork.image(at: CGSize(width: artwork.bounds.width, height: artwork.bounds.height))
+            }
         }
     }
     

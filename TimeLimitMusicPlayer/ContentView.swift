@@ -86,6 +86,8 @@ struct NowPlayingView: View {
             Text(self.music.musicTitle)
             Text("\(self.music.nowTrack)/\(self.music.albumTrackCount)")
         }
+        .padding(EdgeInsets(top: 4.0, leading: 0, bottom: 0, trailing: 0))
+        .font(.title2)
     }
 }
 
@@ -131,12 +133,15 @@ struct SelectAlbumView: View {
 
             }
             Text(self.music.selectArtistName)
-                .font(.title)
+                .font(.title2)
                 .padding(EdgeInsets(top: 4.0, leading: 0, bottom: 0, trailing: 0))
             Text(self.music.selectAlbumTitle)
-                .font(.title)
+                .font(.title2)
+//            if self.music.artwork != nil {
+//                Image(uiImage: self.music.artwork!).fixedSize(horizontal: true, vertical: true)
+//            }
             Text("All time Min.: \(self.music.sumTime / 60)")
-                .font(.title)
+                .font(.title2)
                 .padding(EdgeInsets(top: 4.0, leading: 0, bottom: 0, trailing: 0))
         }
         .sheet(isPresented: self.$onSheet, onDismiss: {
@@ -160,7 +165,7 @@ struct TimeControlView: View {
     var body: some View {
         VStack {
             Text("Play time Min.:\(Int(self.min))")
-                .font(.title)
+                .font(.title2)
             Slider(value: self.$min, in: 10...90, step: 1)
         }
         .onAppear() {
