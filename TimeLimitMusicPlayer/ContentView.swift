@@ -137,9 +137,12 @@ struct SelectAlbumView: View {
                 .padding(EdgeInsets(top: 4.0, leading: 0, bottom: 0, trailing: 0))
             Text(self.music.selectAlbumTitle)
                 .font(.title2)
-//            if self.music.artwork != nil {
-//                Image(uiImage: self.music.artwork!).fixedSize(horizontal: true, vertical: true)
-//            }
+            if self.music.artwork != nil {
+                Image(uiImage: self.music.artwork!)
+                    .resizable()
+                    .frame(width: 200, height: 200, alignment: .center)
+                    .clipShape(Circle())
+            }
             Text("All time Min.: \(self.music.sumTime / 60)")
                 .font(.title2)
                 .padding(EdgeInsets(top: 4.0, leading: 0, bottom: 0, trailing: 0))
