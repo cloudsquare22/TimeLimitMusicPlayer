@@ -140,8 +140,15 @@ struct SelectAlbumView: View {
             if self.music.artwork != nil {
                 Image(uiImage: self.music.artwork!)
                     .resizable()
-                    .frame(width: 200, height: 200, alignment: .center)
+                    .frame(width: 150, height: 150, alignment: .center)
                     .clipShape(Circle())
+            }
+            else {
+                Image(systemName: "opticaldisc")
+                    .resizable()
+                    .frame(width: 150, height: 150, alignment: .center)
+                    .clipShape(Circle())
+                    .foregroundColor(.primary)
             }
             Text("All time Min.: \(self.music.sumTime / 60)")
                 .font(.title2)
