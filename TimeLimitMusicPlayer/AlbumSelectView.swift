@@ -17,11 +17,11 @@ struct AlbumSelectView: View {
                 Text("No albums.")
             }
             ForEach(0..<self.music.collections.count) { index in
-                if let artist = self.music.isSection(item: self.music.collections[index].representativeItem!), artist != "" {
-                    Section(header: Text(artist)) {
-                        
-                    }
-                }
+//                if let artist = self.music.isSection(item: self.music.collections[index].representativeItem!), artist != "" {
+//                    Section(header: Text(artist)) {
+//                        
+//                    }
+//                }
                 Button(action: {
                     self.music.setCollection(collection: self.music.collections[index])
                     self.presentationMode.wrappedValue.dismiss()
